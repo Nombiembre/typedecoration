@@ -24,5 +24,19 @@ const { metadata, absoluteHeader } = Astro.props;
     <Header absolute={absoluteHeader} />
     <slot transition:animate="fade" />
     <Footer />
+    <script>
+      import Lenis from "lenis";
+      document.addEventListener("astro:page-load", () => {
+        const lenis = new Lenis();
+
+        // Use requestAnimationFrame to continuously update the scroll
+        function raf(time: number) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+      });
+    </script>
   </body>
 </html>
