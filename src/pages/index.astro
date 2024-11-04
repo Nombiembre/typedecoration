@@ -1,0 +1,15 @@
+---
+import "@fontsource-variable/inter";
+import IndexContent from "~/components/content/IndexContent.astro";
+
+import "~/styles/index.css";
+
+const preferedLang = Astro.preferredLocale;
+import { defaultLang } from "~/i18n/ui";
+
+if (preferedLang !== defaultLang) {
+  return Astro.redirect(`/${preferedLang}/`, 301);
+}
+---
+
+<IndexContent />
