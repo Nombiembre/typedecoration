@@ -1,0 +1,41 @@
+---
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<form action="/api/sendEmail.json" method="POST" class="space-y-2 md:space-y-4">
+  <div class="flex flex-col gap-2 md:flex-row">
+    <input type="text" placeholder={t("support.name")} />
+    <input type="email" placeholder={t("support.email")} />
+  </div>
+  <textarea name="" id="" rows="4" placeholder={t("support.message")}
+  ></textarea>
+  <button
+    type="submit"
+    class="w-full rounded-lg bg-black py-3 text-center text-white"
+    >{t("support.submit")}</button
+  >
+</form>
+
+<!-- <script>
+  const form = document.querySelector("form") as HTMLFormElement;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    await fetch("/api/sendEmail.json", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        to: "michi@pixel.studio",
+        from: "michi@pixel.studio",
+        subject: "Astro",
+        html: "<h1>Hello</h1>",
+        text: "Hello",
+      }),
+    });
+  });
+</script> -->

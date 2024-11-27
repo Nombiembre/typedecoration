@@ -51,6 +51,7 @@ const { showbyDefault } = Astro.props;
         return (
           <li>
             <a
+              class="z-[200] pointer-events-auto"
               href={`${isDefault ? `/${langPrefix}/${pathname}` : `/${pathname}`}`}
             >
               {label}
@@ -83,3 +84,7 @@ const { showbyDefault } = Astro.props;
     z-index: 1000;
   }
 </style>
+
+<script>
+
+</script>

@@ -1,6 +1,7 @@
 ---
-import { getLangFromUrl, useTranslations } from "~/i18n/utils";
 import Layout from "~/layouts/LayoutMd.astro";
+import FormSupport from "../form-support.astro";
+import { getLangFromUrl, useTranslations } from "~/i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -23,19 +24,49 @@ const metadata = {
       {t("support.description")}
     </p>
 
-    <form action="" class="space-y-2 md:space-y-4">
+    <form class="space-y-2 md:space-y-4">
       <div class="flex flex-col gap-2 md:flex-row">
-        <input type="text" placeholder={t("support.name")} />
-        <input type="email" placeholder={t("support.email")} />
+        <input id="input-name" type="text" placeholder={t("support.name")} />
+        <input id="input-email" type="email" placeholder={t("support.email")} />
       </div>
-      <textarea name="" id="" rows="4" placeholder={t("support.message")}
-      ></textarea>
-      <button class="w-full rounded-lg bg-black py-3 text-center text-white"
+      <textarea
+        name=""
+        id="input-text"
+        rows="4"
+        placeholder={t("support.message")}></textarea>
+      <button
+        type="submit"
+        class="w-full rounded-lg bg-black py-3 text-center text-white"
         >{t("support.submit")}</button
       >
     </form>
   </div>
 </Layout>
+
+<script>
+  const form = document.querySelector("form") as HTMLFormElement;
+  const $name = document.getElementById("input-name") as HTMLInputElement;
+  const $email = document.getElementById("input-email") as HTMLInputElement;
+  const $text = document.getElementById("input-text") as HTMLTextAreaElement;
+
+  document.addEventListener("astro:page-load", () => {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await fetch("/api/sendEmail.json", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: $name.value,
+          email: $email.value,
+          message: $text.value,
+        }),
+      });
+
+    });
+  });
+</script>
 
 <style>
   input,
